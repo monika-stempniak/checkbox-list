@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getData } from './helpers';
 import { DataType } from './types';
 
-export const useFetchData = () => {
+type UseFetchDataReturnType = [DataType[], (id: number) => void];
+
+export const useFetchData = (): UseFetchDataReturnType => {
   const [data, setData] = useState<DataType[]>([]);
 
   const fetchData = async () => {
@@ -19,5 +21,19 @@ export const useFetchData = () => {
     fetchData();
   }, []);
 
-  return [data];
+  const updateData = useCallback(
+    (id: number) => {
+      const updatedData = data.map((item) => {
+        if (id === item.id) {
+          return { ...item, is_unread: !item.is_unread };
+        }
+        return item;
+      });
+
+      setData(updatedData);
+    },
+    [data]
+  );
+
+  return [data, updateData];
 };

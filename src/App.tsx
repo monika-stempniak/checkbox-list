@@ -6,11 +6,14 @@ import { NotFound } from './pages/NotFound';
 import { useFetchData } from './utils/useFetchData';
 
 function App() {
-  const [data] = useFetchData();
+  const [data, updateData] = useFetchData();
 
   return (
     <Routes>
-      <Route path="/" element={<HomePage data={data} />} />
+      <Route
+        path="/"
+        element={<HomePage data={data} updateData={updateData} />}
+      />
       <Route path="/detail/:id" element={<DetailPage data={data} />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
