@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import {
   ContentContainer,
   PageContainer,
@@ -8,13 +9,10 @@ import {
   StyledLinkButton,
   StyledArticle,
 } from '../components/Common.style';
-import { DataType } from '../utils/types';
+import { DataContext } from '../utils/DataContext';
 
-type DetailPageProps = {
-  data: DataType[];
-};
-
-export const DetailPage = ({ data }: DetailPageProps) => {
+export const DetailPage = () => {
+  const { data } = useContext(DataContext);
   const { id } = useParams();
   const navigate = useNavigate();
 

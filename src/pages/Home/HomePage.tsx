@@ -1,18 +1,16 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
+
 import {
   ContentContainer,
   PageContainer,
   PageTitle,
-} from '../components/Common.style';
-import { ListItem } from '../components/ListItem';
-import { DataType } from '../utils/types';
+} from '../../components/Common.style';
+import { ListItem } from './ListItem';
+import { DataContext } from '../../utils/DataContext';
 
-type HomePageProps = {
-  data: DataType[];
-  updateData: (id: number) => void;
-};
+export const HomePage = () => {
+  const { data } = useContext(DataContext);
 
-export const HomePage = ({ data, updateData }: HomePageProps) => {
   const checkedItems = useMemo(
     () => data.filter((item) => item.is_unread),
     [data]
@@ -32,7 +30,6 @@ export const HomePage = ({ data, updateData }: HomePageProps) => {
               id={item.id}
               from={item.from}
               isUnread={item.is_unread}
-              updateData={updateData}
             />
           ))}
         </ul>
