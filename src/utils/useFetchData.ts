@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { getData } from './helpers';
+import { getAsyncData } from './helpers';
 import { DataType } from './types';
 
 type UseFetchDataReturnType = [DataType[], (id: number) => void];
@@ -10,7 +10,7 @@ export const useFetchData = (): UseFetchDataReturnType => {
 
   const fetchData = async () => {
     try {
-      const list = await getData();
+      const list = await getAsyncData();
       setData(list);
     } catch (err) {
       console.log(err);

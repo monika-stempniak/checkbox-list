@@ -1,4 +1,5 @@
-import { useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
+import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
 
 import {
   ContentContainer,
@@ -7,32 +8,32 @@ import {
 } from '../../components/Common.style';
 import { ListItem } from './ListItem';
 import { DataContext } from '../../utils/DataContext';
+import { DataType } from '../../utils/types';
+import { CheckedItems } from './CheckedItems';
 
 export const HomePage = () => {
   const { data } = useContext(DataContext);
 
-  const checkedItems = useMemo(
-    () => data.filter((item) => item.is_unread),
+  const Row = useCallback(
+    ({ index, style }: ListChildComponentProps<DataType[]>) => {
+      const row = data[index];
+      return (
+        <div key={row.id} style={style}>
+          <ListItem id={row.id} from={row.from} isUnread={row.is_unread} />
+        </div>
+      );
+    },
     [data]
   );
 
   return (
     <PageContainer>
       <PageTitle>Home Page</PageTitle>
-      <div>
-        Checked elements: <b>{checkedItems.length}</b>
-      </div>
+      <CheckedItems />
       <ContentContainer>
-        <ul>
-          {data.map((item) => (
-            <ListItem
-              key={item.id}
-              id={item.id}
-              from={item.from}
-              isUnread={item.is_unread}
-            />
-          ))}
-        </ul>
+        <List width={450} height={800} itemCount={data.length} itemSize={50}>
+          {Row}
+        </List>
       </ContentContainer>
     </PageContainer>
   );

@@ -9,7 +9,7 @@ export const PageContainer = styled.main`
 `;
 
 export const ContentContainer = styled.div`
-  max-width: 400px;
+  max-width: 450px;
 `;
 
 export const PageTitle = styled.h1<{ color?: string }>`
